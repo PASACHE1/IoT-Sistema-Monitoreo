@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Seguridad</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <meta http-equiv="refresh" content="5"> <!-- Actualización automática cada 5 segundos -->
+</head>
+<body>
+  <header class="header">
+    <div class="logo">🔒 Sistema de Seguridad</div>
+  </header>
+
+  <!-- Mensajes Flash -->
+  <div id="flash-messages">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash-message {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+
+  <!-- Filtros -->
+  <div class="filters">
+    <form method="GET" action="/">
+      <button type="submit" name="filter" value="all" class="{{ 'active' if filter_option == 'all' else '' }}">Todos</button>
+      <button type="submit" name="filter" value="last-hour" class="{{ 'active' if filter_option == 'last-hour' else '' }}">Última Hora</button>
+      <button type="submit" name="filter" value="today" class="{{ 'active' if filter_option == 'today' else '' }}">Hoy</button>
+    </form>
+  </div>
+
+  <!-- Galería -->
+  <main>
+    <section class="gallery">
+      <div class="gallery-grid">
+        {% for photo in photos %}
+          <div class="gallery-item">
+            <a href="{{ url_for('get_photo', filename=photo.filename) }}" target="_blank">
+              <img src="{{ url_for('get_photo', filename=photo.filename) }}" alt="Foto de seguridad" class="gallery-image">
+            </a>
+            <div class="photo-meta">
+              <span class="photo-date">{{ photo.upload_time }}</span>
+              <form method="POST" action="{{ url_for('delete_photo', filename=photo.filename) }}">
+                <button type="submit" class="delete-btn">Eliminar</button>
+              </form>
+              <a href="{{ url_for('download_photo', filename=photo.filename) }}" class="download-btn">Descargar</a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2024 Sistema de Seguridad. Monitoreo continuo.</p>
+  </footer>
+</body>
+</html>

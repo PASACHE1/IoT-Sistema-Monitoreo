@@ -1,0 +1,100 @@
+:root {
+    --primary-color: #1B263B;
+    --accent-color: #17A2B8;
+    --danger-color: #E74C3C;
+    --success-color: #28A745;
+    --background-color: #F4F6F7;
+    --text-color: #FFFFFF;
+  }
+  
+  body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    background: linear-gradient(45deg, #1B263B, #17A2B8);
+    background-size: 400% 400%;
+    animation: gradientBackground 10s ease infinite;
+    color: var(--text-color);
+  }
+  
+  @keyframes gradientBackground {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  header {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+  }
+  
+  .filters {
+    text-align: center;
+    margin: 20px auto;
+  }
+  
+  .filters button {
+    background: var(--accent-color);
+    color: var(--text-color);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin: 5px;
+    cursor: pointer;
+  }
+  
+  .filters button.active {
+    background: #1B263B;
+  }
+  
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    padding: 20px;
+  }
+  
+  .gallery-item {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    overflow: hidden;
+  }
+  
+  .gallery-item img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  
+  .photo-meta {
+    margin-top: 10px;
+  }
+  
+  .delete-btn, .download-btn {
+    background: var(--danger-color);
+    color: var(--text-color);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-top: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+  }
+  
+  .download-btn {
+    background: var(--success-color);
+  }
+  
+  footer {
+    text-align: center;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--text-color);
+  }
+  
