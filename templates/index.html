@@ -5,57 +5,192 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sistema de Seguridad</title>
   <link rel="stylesheet" href="/static/css/styles.css">
-  <meta http-equiv="refresh" content="5"> <!-- Actualización automática cada 5 segundos -->
 </head>
 <body>
-  <header class="header">
-    <div class="logo">🔒 Sistema de Seguridad</div>
-  </header>
-
-  <!-- Mensajes Flash -->
-  <div id="flash-messages">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="flash-message {{ category }}">{{ message }}</div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
+  <button id="toggle-sidebar" class="toggle-sidebar-btn">☰</button> <!-- Botón para alternar -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <center></center>
+    </div>
+   <br>
+    <ul class="sidebar-menu">
+      <li><a href="#" data-section="video">Video en Vivo</a></li>
+      <li><a href="#" data-section="gallery">Galería de Fotos</a></li>
+      <li><a href="#" data-section="settings">Configuraciones</a></li>
+    </ul>
   </div>
 
-  <!-- Filtros -->
-  <div class="filters">
-    <form method="GET" action="/">
-      <button type="submit" name="filter" value="all" class="{{ 'active' if filter_option == 'all' else '' }}">Todos</button>
-      <button type="submit" name="filter" value="last-hour" class="{{ 'active' if filter_option == 'last-hour' else '' }}">Última Hora</button>
-      <button type="submit" name="filter" value="today" class="{{ 'active' if filter_option == 'today' else '' }}">Hoy</button>
-    </form>
-  </div>
+  <div class="main-content">
+    <header class="header">
+      <div class="logo">🔒 Sistema de Seguridad</div>
+      <button id="toggle-dark-mode" class="refresh-btn">🌙 Modo Oscuro</button>
+    </header>
 
-  <!-- Galería -->
-  <main>
-    <section class="gallery">
-      <div class="gallery-grid">
+    <nav class="breadcrumb">
+      <span id="breadcrumb-text">Inicio</span>
+    </nav>
+
+    <!-- Secciones -->
+    <section id="video" class="section">
+      <h2>Video en Vivo</h2>
+      <img src="/video_feed" alt="Cargando video en vivo..." class="video-stream">
+    </section>
+
+    <section id="gallery" class="section">
+      <h2>Galería de Fotos</h2>
+
+      <!-- Controles de galería -->
+      <div class="gallery-controls">
+        <input 
+          type="text" 
+          id="photo-search" 
+          placeholder="Buscar por nombre o fecha..." 
+          class="search-bar"
+        />
+        <button id="refresh-gallery" class="refresh-btn">🔄 Actualizar</button>
+      </div>
+
+      <!-- Grid de galería -->
+      <div class="gallery-grid" id="gallery-grid">
         {% for photo in photos %}
-          <div class="gallery-item">
-            <a href="{{ url_for('get_photo', filename=photo.filename) }}" target="_blank">
-              <img src="{{ url_for('get_photo', filename=photo.filename) }}" alt="Foto de seguridad" class="gallery-image">
-            </a>
-            <div class="photo-meta">
-              <span class="photo-date">{{ photo.upload_time }}</span>
-              <form method="POST" action="{{ url_for('delete_photo', filename=photo.filename) }}">
-                <button type="submit" class="delete-btn">Eliminar</button>
-              </form>
-              <a href="{{ url_for('download_photo', filename=photo.filename) }}" class="download-btn">Descargar</a>
-            </div>
-          </div>
+        <div class="gallery-item" data-name="{{ photo.filename }}" data-date="{{ photo.upload_time }}">
+          <img src="{{ url_for('get_photo', filename=photo.filename) }}" alt="Foto">
+          <span>{{ photo.upload_time }}</span>
+          <form method="POST" action="{{ url_for('delete_photo', filename=photo.filename) }}">
+            <button type="submit" class="delete-btn">Eliminar</button>
+          </form>
+          <a href="{{ url_for('download_photo', filename=photo.filename) }}" class="download-btn">Descargar</a>
+        </div>
         {% endfor %}
       </div>
     </section>
-  </main>
 
-  <footer class="footer">
-    <p>© 2024 Sistema de Seguridad. Monitoreo continuo.</p>
-  </footer>
+    <section id="settings" class="section">
+      <h2>Configuraciones</h2>
+      <p>Aquí puedes ajustar las preferencias del sistema.</p>
+    </section>
+
+    <footer>
+      <p><h3>© 2024 Sistema de Seguridad</h3></p>
+    </footer>
+  </div>
+
+  <script>
+    // Alternar modo oscuro y guardar en localStorage
+    const toggleDarkMode = document.getElementById("toggle-dark-mode");
+
+    function applyDarkMode(mode) {
+      if (mode === "dark") {
+        document.body.classList.add("dark-mode");
+        toggleDarkMode.textContent = "☀️ Modo Claro";
+      } else {
+        document.body.classList.remove("dark-mode");
+        toggleDarkMode.textContent = "🌙 Modo Oscuro";
+      }
+    }
+
+    // Obtener el modo guardado en localStorage
+    const savedMode = localStorage.getItem("theme") || "light";
+    applyDarkMode(savedMode);
+
+    toggleDarkMode.addEventListener("click", () => {
+      const currentMode = document.body.classList.contains("dark-mode") ? "dark" : "light";
+      const newMode = currentMode === "dark" ? "light" : "dark";
+
+      localStorage.setItem("theme", newMode); // Guardar el nuevo modo
+      applyDarkMode(newMode); // Aplicar el modo actualizado
+    });
+
+    // Navegación entre secciones con memoria
+    const links = document.querySelectorAll(".sidebar-menu a");
+    const sections = document.querySelectorAll(".section");
+    const breadcrumbText = document.getElementById("breadcrumb-text");
+    const defaultSection = "video"; // Sección predeterminada
+
+    function showSection(sectionId) {
+      sections.forEach(section => {
+        section.classList.remove("active");
+      });
+
+      document.getElementById(sectionId).classList.add("active");
+      breadcrumbText.textContent = document.querySelector(`a[data-section="${sectionId}"]`).textContent;
+    }
+
+    // Cargar sección activa desde localStorage
+    const savedSection = localStorage.getItem("activeSection") || defaultSection;
+    showSection(savedSection);
+
+    links.forEach(link => {
+      link.addEventListener("click", event => {
+        event.preventDefault();
+        const targetSection = link.dataset.section;
+        localStorage.setItem("activeSection", targetSection); // Guardar la sección activa
+        showSection(targetSection);
+      });
+    });
+
+    // Actualizar manualmente la galería
+    const refreshButton = document.getElementById("refresh-gallery");
+    refreshButton.addEventListener("click", () => {
+      localStorage.setItem("activeSection", "gallery"); // Asegurar que vuelve a la galería
+      location.reload();
+    });
+
+    // Filtro de búsqueda
+    const searchBar = document.getElementById("photo-search");
+    const galleryGrid = document.getElementById("gallery-grid");
+    const galleryItems = galleryGrid.querySelectorAll(".gallery-item");
+
+    searchBar.addEventListener("input", () => {
+      const query = searchBar.value.toLowerCase();
+
+      galleryItems.forEach(item => {
+        const name = item.getAttribute("data-name").toLowerCase();
+        const date = item.getAttribute("data-date").toLowerCase();
+
+        if (name.includes(query) || date.includes(query)) {
+          item.style.display = "";
+        } else {
+          item.style.display = "none";
+        }
+      });
+    });
+      //javaScrip
+      // Referencias a elementos
+      const sidebar = document.querySelector(".sidebar");
+      const mainContent = document.querySelector(".main-content");
+      const toggleSidebarButton = document.getElementById("toggle-sidebar");
+
+      // Función para aplicar el estado de la barra lateral
+      function applySidebarState() {
+        const isHidden = localStorage.getItem("sidebar-hidden") === "true";
+
+        if (isHidden) {
+          sidebar.classList.add("hidden");
+          mainContent.style.marginLeft = "0";
+        } else {
+          sidebar.classList.remove("hidden");
+          mainContent.style.marginLeft = getComputedStyle(sidebar).getPropertyValue("width");
+        }
+      }
+
+      // Alternar estado de la barra lateral
+      toggleSidebarButton.addEventListener("click", () => {
+        const isCurrentlyHidden = sidebar.classList.toggle("hidden");
+
+        // Guardar el estado actual en localStorage
+        localStorage.setItem("sidebar-hidden", isCurrentlyHidden);
+
+        // Ajustar el margen del contenido principal
+        if (isCurrentlyHidden) {
+          mainContent.style.marginLeft = "0";
+        } else {
+          mainContent.style.marginLeft = getComputedStyle(sidebar).getPropertyValue("width");
+        }
+      });
+
+      // Aplicar el estado guardado al cargar la página
+      applySidebarState();
+  </script>
 </body>
 </html>
