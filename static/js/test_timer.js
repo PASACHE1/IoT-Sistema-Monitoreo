@@ -9,7 +9,7 @@
 
   // Temporizador de 10 segundos
   function startTimer() {
-    let countdown = 10;  // 10 segundos
+    //let countdown = 10;  // 10 segundos
     const interval = setInterval(() => {
       countdown--;
       timerElement.textContent = `${countdown} Segundos`;  // Actualizar el temporizador
