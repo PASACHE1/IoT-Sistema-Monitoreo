@@ -1,0 +1,21 @@
+
+#timer {
+    width: 200px;
+    font-size: .8rem;  /* Tamaño grande para el texto */
+    font-weight: bold;
+    color: #333;  /* Color de texto oscuro */
+    padding: 10px;
+    background-color: #ffcc00; /* Fondo amarillo */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    text-align: center;
+    transition: background-color 0.5s; /* Transición suave en el fondo */
+  }
+
+  #timer.low {
+    background-color: #ff6666; /* Cambiar a rojo cuando el tiempo sea bajo */
+  }
+  #timer:hover{
+    cursor: pointer;
+  }
+  
