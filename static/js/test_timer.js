@@ -9,7 +9,7 @@ function refreshGallery() {
     let countdown = 15;  // 10 segundos
     const interval = setInterval(() => {
       countdown--;
-      timerElement.textContent = `🔄️${countdown} Segundos`;  // Actualizar el temporizador
+      timerElement.textContent = `⏱️${countdown} Segundos`;  // Actualizar el temporizador
 
       // Si el tiempo llega a cero, se detiene el temporizador y se recarga la página
       if (countdown <= 0) {
