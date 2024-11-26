@@ -1,7 +1,7 @@
 :root {
   --primary-color: #1A1A2E; /* Azul oscuro profesional */
   --secondary-color: #16213E; /* Azul más profundo */
-  --accent-color: #0F3460; /* Azul brillante para resaltar */
+  --accent-color: #fcfcfc; /* Azul brillante para resaltar */
   --danger-color: #E94560; /* Rojo intenso para botones críticos */
   --success-color: #21BF73; /* Verde llamativo para acciones positivas */
   --text-color: #F5F5F5; /* Blanco suave para texto */
@@ -314,3 +314,36 @@ footer {
   cursor: pointer;
 }
 
+/*Notificaciones*/
+#flash-messages {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  width: 300px;
+}
+
+.flash-message {
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+  animation: fade-in-out 4s;
+}
+
+.flash-message.success {
+  background-color: #4CAF50; /* Verde */
+}
+
+.flash-message.danger {
+  background-color: #F44336; /* Rojo */
+}
+
+@keyframes fade-in-out {
+  0% { opacity: 0; transform: translateY(-10px); }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}

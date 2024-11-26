@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <!-- Metadatos básicos -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sistema de Seguridad</title>
+  <!-- Archivo de estilos CSS externo -->
   <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-  <button id="toggle-sidebar" class="toggle-sidebar-btn">☰</button> <!-- Botón para alternar -->
+  <!-- Botón para alternar la visibilidad de la barra lateral -->
+  <button id="toggle-sidebar" class="toggle-sidebar-btn">☰</button>
+
+  <!-- Barra lateral -->
   <div class="sidebar">
     <div class="sidebar-header">
       <center></center>
     </div>
-   <br>
+    <br>
+    <!-- Menú de la barra lateral con enlaces a las diferentes secciones -->
     <ul class="sidebar-menu">
       <li><a href="#" data-section="video">Video en Vivo</a></li>
       <li><a href="#" data-section="gallery">Galería de Fotos</a></li>
@@ -20,103 +26,118 @@
     </ul>
   </div>
 
+  <!-- Contenido principal -->
   <div class="main-content">
+    <!-- Encabezado con el título y un botón para alternar el modo oscuro -->
     <header class="header">
       <div class="logo">🔒 Sistema de Seguridad</div>
       <button id="toggle-dark-mode" class="refresh-btn">🌙 Modo Oscuro</button>
     </header>
 
+    <!-- Barra de navegación o "breadcrumb" -->
     <nav class="breadcrumb">
       <span id="breadcrumb-text">Inicio</span>
     </nav>
 
-    <!-- Secciones -->
+    <!-- Sección: Video en vivo -->
     <section id="video" class="section">
       <h2>Video en Vivo</h2>
+      <!-- Imagen que muestra el stream de video en vivo desde el servidor -->
       <img src="/video_feed" alt="Cargando video en vivo..." class="video-stream">
     </section>
 
+    <!-- Sección: Galería de Fotos -->
     <section id="gallery" class="section">
       <h2>Galería de Fotos</h2>
 
-      <!-- Controles de galería -->
+      <!-- Controles para la galería -->
       <div class="gallery-controls">
+        <!-- Barra de búsqueda -->
         <input 
           type="text" 
           id="photo-search" 
           placeholder="Buscar por nombre o fecha..." 
           class="search-bar"
         />
+        <!-- Botón para actualizar la galería -->
         <button id="refresh-gallery" class="refresh-btn">🔄 Actualizar</button>
       </div>
 
-      <!-- Grid de galería -->
+      <!-- Grid que contiene las fotos -->
       <div class="gallery-grid" id="gallery-grid">
         {% for photo in photos %}
         <div class="gallery-item" data-name="{{ photo.filename }}" data-date="{{ photo.upload_time }}">
+          <!-- Mostrar la foto -->
           <img src="{{ url_for('get_photo', filename=photo.filename) }}" alt="Foto">
+          <!-- Mostrar la fecha de la foto -->
           <span>{{ photo.upload_time }}</span>
+          <!-- Botón para eliminar la foto -->
           <form method="POST" action="{{ url_for('delete_photo', filename=photo.filename) }}">
             <button type="submit" class="delete-btn">Eliminar</button>
           </form>
+          <!-- Enlace para descargar la foto -->
           <a href="{{ url_for('download_photo', filename=photo.filename) }}" class="download-btn">Descargar</a>
         </div>
         {% endfor %}
       </div>
     </section>
 
+    <!-- Sección: Configuraciones -->
     <section id="settings" class="section">
       <h2>Configuraciones</h2>
       <p>Aquí puedes ajustar las preferencias del sistema.</p>
     </section>
 
+    <!-- Pie de página -->
     <footer>
       <p><h3>© 2024 Sistema de Seguridad</h3></p>
     </footer>
   </div>
 
+  <!-- Scripts para interactividad -->
   <script>
     // Alternar modo oscuro y guardar en localStorage
     const toggleDarkMode = document.getElementById("toggle-dark-mode");
 
     function applyDarkMode(mode) {
       if (mode === "dark") {
-        document.body.classList.add("dark-mode");
+        document.body.classList.add("dark-mode"); // Activar modo oscuro
         toggleDarkMode.textContent = "☀️ Modo Claro";
       } else {
-        document.body.classList.remove("dark-mode");
+        document.body.classList.remove("dark-mode"); // Desactivar modo oscuro
         toggleDarkMode.textContent = "🌙 Modo Oscuro";
       }
     }
 
-    // Obtener el modo guardado en localStorage
+    // Recuperar el modo guardado en localStorage al cargar la página
     const savedMode = localStorage.getItem("theme") || "light";
     applyDarkMode(savedMode);
 
+    // Evento para alternar entre modo claro y oscuro
     toggleDarkMode.addEventListener("click", () => {
       const currentMode = document.body.classList.contains("dark-mode") ? "dark" : "light";
       const newMode = currentMode === "dark" ? "light" : "dark";
 
-      localStorage.setItem("theme", newMode); // Guardar el nuevo modo
-      applyDarkMode(newMode); // Aplicar el modo actualizado
+      localStorage.setItem("theme", newMode); // Guardar nuevo estado
+      applyDarkMode(newMode);
     });
 
-    // Navegación entre secciones con memoria
+    // Navegación entre secciones
     const links = document.querySelectorAll(".sidebar-menu a");
     const sections = document.querySelectorAll(".section");
     const breadcrumbText = document.getElementById("breadcrumb-text");
-    const defaultSection = "video"; // Sección predeterminada
+    const defaultSection = "video";
 
     function showSection(sectionId) {
+      // Ocultar todas las secciones y mostrar solo la activa
       sections.forEach(section => {
         section.classList.remove("active");
       });
-
       document.getElementById(sectionId).classList.add("active");
       breadcrumbText.textContent = document.querySelector(`a[data-section="${sectionId}"]`).textContent;
     }
 
-    // Cargar sección activa desde localStorage
+    // Mostrar la sección activa al cargar
     const savedSection = localStorage.getItem("activeSection") || defaultSection;
     showSection(savedSection);
 
@@ -124,19 +145,18 @@
       link.addEventListener("click", event => {
         event.preventDefault();
         const targetSection = link.dataset.section;
-        localStorage.setItem("activeSection", targetSection); // Guardar la sección activa
+        localStorage.setItem("activeSection", targetSection); // Guardar sección activa
         showSection(targetSection);
       });
     });
 
-    // Actualizar manualmente la galería
+    // Actualización manual de la galería
     const refreshButton = document.getElementById("refresh-gallery");
-    refreshButton.addEventListener("click", () => {
-      localStorage.setItem("activeSection", "gallery"); // Asegurar que vuelve a la galería
-      location.reload();
-    });
+  refreshButton.addEventListener("click", () => {
+    location.reload();  // Recargar la página para reflejar las fotos nuevas
+  });
 
-    // Filtro de búsqueda
+    // Filtrar fotos en la galería
     const searchBar = document.getElementById("photo-search");
     const galleryGrid = document.getElementById("gallery-grid");
     const galleryItems = galleryGrid.querySelectorAll(".gallery-item");
@@ -148,6 +168,7 @@
         const name = item.getAttribute("data-name").toLowerCase();
         const date = item.getAttribute("data-date").toLowerCase();
 
+        // Mostrar solo los elementos que coincidan con la búsqueda
         if (name.includes(query) || date.includes(query)) {
           item.style.display = "";
         } else {
@@ -155,42 +176,60 @@
         }
       });
     });
-      //javaScrip
-      // Referencias a elementos
-      const sidebar = document.querySelector(".sidebar");
-      const mainContent = document.querySelector(".main-content");
-      const toggleSidebarButton = document.getElementById("toggle-sidebar");
 
-      // Función para aplicar el estado de la barra lateral
-      function applySidebarState() {
-        const isHidden = localStorage.getItem("sidebar-hidden") === "true";
+    // Manejo de la barra lateral
+    const sidebar = document.querySelector(".sidebar");
+    const mainContent = document.querySelector(".main-content");
+    const toggleSidebarButton = document.getElementById("toggle-sidebar");
 
-        if (isHidden) {
-          sidebar.classList.add("hidden");
-          mainContent.style.marginLeft = "0";
-        } else {
-          sidebar.classList.remove("hidden");
-          mainContent.style.marginLeft = getComputedStyle(sidebar).getPropertyValue("width");
-        }
+    function applySidebarState() {
+      const isHidden = localStorage.getItem("sidebar-hidden") === "true";
+
+      if (isHidden) {
+        sidebar.classList.add("hidden");
+        mainContent.style.marginLeft = "0";
+      } else {
+        sidebar.classList.remove("hidden");
+        mainContent.style.marginLeft = getComputedStyle(sidebar).getPropertyValue("width");
       }
+    }
 
-      // Alternar estado de la barra lateral
-      toggleSidebarButton.addEventListener("click", () => {
-        const isCurrentlyHidden = sidebar.classList.toggle("hidden");
+    // Alternar estado de la barra lateral
+    toggleSidebarButton.addEventListener("click", () => {
+      const isCurrentlyHidden = sidebar.classList.toggle("hidden");
+      localStorage.setItem("sidebar-hidden", isCurrentlyHidden);
+      mainContent.style.marginLeft = isCurrentlyHidden ? "0" : getComputedStyle(sidebar).getPropertyValue("width");
+    });
 
-        // Guardar el estado actual en localStorage
-        localStorage.setItem("sidebar-hidden", isCurrentlyHidden);
-
-        // Ajustar el margen del contenido principal
-        if (isCurrentlyHidden) {
-          mainContent.style.marginLeft = "0";
-        } else {
-          mainContent.style.marginLeft = getComputedStyle(sidebar).getPropertyValue("width");
-        }
-      });
-
-      // Aplicar el estado guardado al cargar la página
-      applySidebarState();
+    // Aplicar estado guardado al cargar
+    applySidebarState();
   </script>
 </body>
+<!-- Sección para mostrar mensajes Flash -->
+<div id="flash-messages">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="flash-message {{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
+
+<script>
+ // Manejo de mensajes Flash: las notificaciones se desvanecen después de 4 segundos
+  document.addEventListener("DOMContentLoaded", () => {
+    const flashMessages = document.querySelectorAll(".flash-message");
+    if (flashMessages.length > 0) {
+      setTimeout(() => {
+        flashMessages.forEach(message => {
+          message.style.transition = "opacity 0.5s";  // Transición suave para el desvanecimiento
+          message.style.opacity = "0";  // Desvanecer el mensaje
+          setTimeout(() => message.remove(), 500); // Eliminar el mensaje después de la transición
+        });
+      }, 4000); // Esperar 4 segundos antes de iniciar el desvanecimiento
+    }
+  });
+</script>
+  
 </html>
