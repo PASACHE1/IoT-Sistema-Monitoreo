@@ -6,7 +6,7 @@ function refreshGallery() {
   
   // Temporizador de 10 segundos
   function startTimer() {
-    let countdown = 10;  // 10 segundos
+    let countdown = 15;  // 10 segundos
     const interval = setInterval(() => {
       countdown--;
       timerElement.textContent = `${countdown} Segundos`;  // Actualizar el temporizador
@@ -18,12 +18,12 @@ function refreshGallery() {
       }
     }, 1000);  // Actualizar cada segundo
     
-    timerElement.addEventListener("click", () => {
-      location.reload();  // Recargar la página para reflejar las fotos nuevas
-    });
-    
   }
   
   // Iniciar el temporizador automáticamente cuando se cargue la página
   startTimer();
   
+  
+  timerElement.addEventListener("click", () => {
+    location.reload();  // Recargar la página para reflejar las fotos nuevas
+  });
