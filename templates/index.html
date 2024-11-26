@@ -164,7 +164,7 @@
     location.reload();  // Recargar la página para reflejar las fotos nuevas
   }); */
 
-    // Filtrar fotos en la galería
+    /* // Filtrar fotos en la galería
     const searchBar = document.getElementById("photo-search");
     const galleryGrid = document.getElementById("gallery-grid");
     const galleryItems = galleryGrid.querySelectorAll(".gallery-item");
@@ -183,7 +183,7 @@
           item.style.display = "none";
         }
       });
-    });
+    }); */
 
     // Manejo de la barra lateral
     const sidebar = document.querySelector(".sidebar");
@@ -223,7 +223,8 @@
     {% endif %}
   {% endwith %}
 </div>
-<script src="/static/js/test_timer.js"></script>
+<!-- <script src="/static/js/test_timer.js"></script> -->
+<script src="/static/js/search-timer.js"></script>
 <script>
  // Manejo de mensajes Flash: las notificaciones se desvanecen después de 4 segundos
   document.addEventListener("DOMContentLoaded", () => {
