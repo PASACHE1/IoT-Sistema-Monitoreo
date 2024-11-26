@@ -60,7 +60,8 @@
           class="search-bar"
         />
         <!-- Botón para actualizar la galería -->
-        <button id="refresh-gallery" class="refresh-btn">🔄 Actualizar</button>
+        <!-- <button id="refresh-gallery" class="refresh-btn">🔄 Actualizar</button> -->
+        <button id="timer" class="timer">10 Segundos</button>
       </div>
 
       <!-- Grid que contiene las fotos -->
@@ -215,7 +216,7 @@
     {% endif %}
   {% endwith %}
 </div>
-
+<script src="/static/js/test_timer.js"></script>
 <script>
  // Manejo de mensajes Flash: las notificaciones se desvanecen después de 4 segundos
   document.addEventListener("DOMContentLoaded", () => {
