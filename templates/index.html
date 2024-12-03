@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sistema de Seguridad</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- Archivo de estilos CSS externo -->
   <link rel="stylesheet" href="/static/css/styles.css">
 </head>
@@ -22,8 +23,8 @@
     <ul class="sidebar-menu">
       <li><a href="#" data-section="video">Video en Vivo</a></li>
       <li><a href="#" data-section="gallery">Galería de Fotos</a></li>
-      <li><a href="#" data-section="settings">Configuraciones</a></li>
       <li><a href="#" data-section="dashboard">Dashboard</a></li>
+      <li><a href="#" data-section="settings">Correos Gmail </a></li>
     </ul>
   </div>
 
@@ -86,16 +87,134 @@
 
     <!-- Sección: Configuraciones -->
     <section id="settings" class="section">
-      <h2>Configuraciones</h2>
-      <p>Aquí puedes ajustar las preferencias del sistema.</p>
+      <div class="whatsapp-config-section">
+        <h1>Enviar Correo</h1>
+        <form action="{{ url_for('send_email') }}" method="POST">
+            <label for="subject">Asunto:</label>
+            <input type="text" id="subject" name="subject" required>
+            
+            <label for="recipient">Destinatario (Correo):</label>
+            <input type="email" id="recipient" name="recipient" required>
+            
+            <label for="message">Mensaje:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+    
+            <!-- Selector de imagen de la galería -->
+            <label for="image">Seleccionar Imagen:</label>
+            <select id="image" name="image_filename">
+              <option value="">Selecciona una imagen</option>
+              {% for photo in photos %}
+                <option value="{{ photo.filename }}">{{ photo.filename }}</option>
+              {% endfor %}
+            </select>
+    
+            <!-- Previsualización de la imagen seleccionada -->
+            <div id="image-preview" style="display:none;">
+              <h3>Vista previa de la imagen:</h3>
+              <img id="preview-img" src="" alt="Imagen seleccionada" style="max-width: 200px; max-height: 200px;">
+            </div>
+    
+            <input type="submit" value="Enviar Correo">
+        </form>
+    
+        <!-- Mensajes de confirmación o error -->
+        <div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul>
+                    {% for category, message in messages %}
+                        <li class="flash-{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+        </div>
+      </div>
     </section>
     
+    <script>
+      // Función para mostrar la imagen seleccionada en el selector
+      document.getElementById("image").addEventListener("change", function() {
+        var imageUrl = this.value;
+        var imagePreview = document.getElementById("image-preview");
+        var previewImg = document.getElementById("preview-img");
+        
+        if (imageUrl) {
+          previewImg.src = "{{ url_for('get_photo', filename='') }}" + imageUrl;
+          imagePreview.style.display = "block";
+        } else {
+          imagePreview.style.display = "none";
+        }
+      });
+    </script>
+      
+<!-- Sección: Dashboard -->
+</section>
     <!-- Sección: Dashboard -->
-    <section id="dashboard" class="section">
-      <h2>Dashboard</h2>
-      <p>Aquí puedes ajustar los resultados de los datos.</p>
-    </section>
+<section id="dashboard" class="section">
+  <!-- Fila de gráficos -->
+  <div class="graphs-row">
+      <!-- Gráfico de Barras -->
+    <div class="graphs-row">
+        <!-- Contenedor para los gráficos -->
+        <div class="canvas-container">
+            <h2>Gráfico de Barras</h2>
+            <canvas id="photoBarChart"></canvas>
+            <div class="button-container">
+                <button onclick="downloadChart(barChart, 'bar_chart.jpg')">⬇️ Descargar</button>
+            </div>
+        </div>
 
+        <div class="canvas-container">
+            <h2>Gráfico de Tortas</h2>
+            <canvas id="photoPieChart"></canvas>
+            <div class="button-container">
+                <button onclick="downloadChart(pieChart, 'pie_chart.jpg')">⬇️ Descargar</button>
+            </div>
+        </div>
+
+        <div class="canvas-container">
+            <h2>Gráfico Lineal</h2>
+            <canvas id="photoLineChart"></canvas>
+            <div class="button-container">
+                <button onclick="downloadChart(lineChart, 'line_chart.jpg')">⬇️ Descargar</button>
+            </div>
+        </div>
+
+        <div class="canvas-container">
+            <h2>Gráfico de Área</h2>
+            <canvas id="photoAreaChart"></canvas>
+            <div class="button-container">
+                <button onclick="downloadChart(areaChart, 'area_chart.jpg')">⬇️ Descargar</button>
+            </div>
+        </div>
+
+        <div class="canvas-container">
+            <h2>Gráfico Radar</h2>
+            <canvas id="photoRadarChart"></canvas>
+            <div class="button-container">
+                <button onclick="downloadChart(radarChart, 'radar_chart.jpg')">⬇️ Descargar</button>
+            </div>
+        </div>
+
+        <div class="canvas-container">
+            <h2>Gráfico de Dispersión</h2>
+            <canvas id="photoScatterChart"></canvas>
+            <div class="button-container">
+                <button onclick="downloadChart(scatterChart, 'scatter_chart.jpg')">⬇️ Descargar</button>
+            </div>
+        </div>
+    </div>
+
+    </body>
+</html>
+
+<!-- Mensaje de error en caso de problemas al cargar los datos -->
+<div class="error-message" style="display:none;">
+  No se pudieron cargar los datos para los gráficos. Inténtalo de nuevo más tarde.
+</div>
+    </body>
+    </section>
     <!-- Pie de página -->
     <footer>
       <p><h3>© 2024 Sistema de Seguridad</h3></p>
@@ -123,11 +242,11 @@
 
     // Evento para alternar entre modo claro y oscuro
     toggleDarkMode.addEventListener("click", () => {
-      const currentMode = document.body.classList.contains("dark-mode") ? "dark" : "light";
-      const newMode = currentMode === "dark" ? "light" : "dark";
+    const currentMode = document.body.classList.contains("dark-mode") ? "dark" : "light";
+    const newMode = currentMode === "dark" ? "light" : "dark";
 
-      localStorage.setItem("theme", newMode); // Guardar nuevo estado
-      applyDarkMode(newMode);
+    localStorage.setItem("theme", newMode); // Guardar nuevo estado
+    applyDarkMode(newMode);
     });
 
     // Navegación entre secciones
@@ -138,7 +257,7 @@
 
     function showSection(sectionId) {
       // Ocultar todas las secciones y mostrar solo la activa
-      sections.forEach(section => {
+      sections.forEach(section  => {
         section.classList.remove("active");
       });
       document.getElementById(sectionId).classList.add("active");
@@ -224,7 +343,7 @@
   {% endwith %}
 </div>
 <!-- <script src="/static/js/test_timer.js"></script> -->
-<script src="/static/js/search-timer.js"></script>
+<!-- <script src="/static/js/search-timer.js"></script> -->
 <script>
  // Manejo de mensajes Flash: las notificaciones se desvanecen después de 4 segundos
   document.addEventListener("DOMContentLoaded", () => {
@@ -240,5 +359,9 @@
     }
   });
 </script>
+
+        <!-- Importar el archivo JavaScript -->
+ 
+        <script src="/static/js/chart _data.js"></script>
   
 </html>

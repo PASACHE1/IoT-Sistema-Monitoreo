@@ -1,5 +1,6 @@
 @import url('styles_timer.css');
-
+@import url('chart_styles.css');
+@import url('styles_gmail.css');
 :root {
   --primary-color: #1A1A2E; /* Azul oscuro profesional */
   --secondary-color: #16213E; /* Azul más profundo */
@@ -14,6 +15,16 @@
   --button-hover-brightness: 1.15;
 }
 
+/* Modo Oscuro */
+.dark-mode {
+  --primary-color: #F5F5F5;
+  --secondary-color: #D9E4F5;
+  --accent-color: #0F3460;
+  --text-color: #1A1A2E;
+  --background-color: #F5F5F5;
+}
+
+/* Estilos generales */
 body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
@@ -24,16 +35,6 @@ body {
   display: flex;
 }
 
-/* Modo Oscuro (opcional si se implementa) */
-.dark-mode {
-  --primary-color: #F5F5F5;
-  --secondary-color: #D9E4F5;
-  --accent-color: #0F3460;
-  --text-color: #1A1A2E;
-  --background-color: #F5F5F5;
-}
-
-/* Sidebar */
 .sidebar {
   width: var(--sidebar-width);
   background: var(--primary-color);
@@ -47,17 +48,6 @@ body {
   box-shadow: var(--box-shadow);
   transition: transform 0.3s ease; /* Transición suave */
 }
-
-/*.sidebar {
-  width: 250px;
-  background-color: #333;
-  color: #fff;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  transition: transform 0.3s ease;
-}*/
 
 .sidebar-header {
   padding: 35px;
@@ -94,7 +84,6 @@ body {
   color: var(--background-color);
   transform: scale(1.05);
 }
-
 
 /* Estilos del botón de alternar */
 .sidebar.hidden {
@@ -143,9 +132,6 @@ body {
 }
 
 .refresh-btn {
-  /*position: absolute;*/
-  /*right: 20px;*/
- /* top: 20px;*/
   background: var(--success-color);
   color: var(--text-color);
   padding: 10px 20px;
@@ -308,6 +294,7 @@ footer {
   margin-right: 10px;
   padding: 5px;
   font-size: 14px;
+  border-radius: 20px;
 }
 
 .refresh-btn {
