@@ -1,0 +1,36 @@
+/* Botón para alternar visibilidad */
+.toggle-sidebar-btn {
+  position: fixed;
+  top: 15px;
+  left: 20px;
+  z-index: 1000;
+  background: var(--primary-color-light);
+  color: var(--text-color-light);
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 18px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.toggle-sidebar-btn-light {
+  background: var(--primary-color-light);
+  color: var(--text-color-light);
+}
+.toggle-sidebar-btn-dark {
+  background: var(--primary-color-dark);
+  color: var(--text-color-dark);
+}
+
+.toggle-sidebar-btn-light:hover {
+  background: var(--accent-color-light);
+  color: var(--background-color-light);
+  transform: scale(1.1);
+}
+.toggle-sidebar-btn-dark:hover {
+  background: var(--accent-color-dark);
+  color: var(--background-color-dark);
+  transform: scale(1.1);
+}

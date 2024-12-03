@@ -1,0 +1,149 @@
+/* Estilos para el modo claro */
+body.light-mode #settings {
+    background-color: #f8f9fa; /* Color de fondo claro */
+    color: #495057; /* Color de texto oscuro */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  body.light-mode #settings h1 {
+    color: #343a40; /* Color más oscuro para el título */
+  }
+
+  body.light-mode #settings label {
+    color: #6c757d; /* Gris oscuro para las etiquetas */
+  }
+
+  body.light-mode #settings input[type="text"],
+  body.light-mode #settings input[type="email"],
+  body.light-mode #settings textarea,
+  body.light-mode #settings select {
+    border: 1px solid #ced4da; /* Gris claro para bordes */
+    color: #495057; /* Texto oscuro */
+    background-color: #ffffff; /* Fondo blanco */
+  }
+
+  body.light-mode #settings input[type="submit"] {
+    background-color: #ff6f61; /* Naranja suave */
+    color: white;
+  }
+
+  body.light-mode .flash-success {
+    background-color: #28a745; /* Verde claro */
+  }
+
+  body.light-mode .flash-danger {
+    background-color: #dc3545; /* Rojo */
+  }
+
+  /* Estilos para el modo oscuro */
+  body.dark-mode #settings {
+    background-color: #343a40; /* Gris oscuro */
+    color: #f8f9fa; /* Texto claro */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  body.dark-mode #settings h1 {
+    color: #f8f9fa; /* Blanco para el título */
+  }
+
+  body.dark-mode #settings label {
+    color: #adb5bd; /* Gris claro para etiquetas */
+  }
+
+  body.dark-mode #settings input[type="text"],
+  body.dark-mode #settings input[type="email"],
+  body.dark-mode #settings textarea,
+  body.dark-mode #settings select {
+    border: 1px solid #495057; /* Gris oscuro para bordes */
+    color: #f8f9fa; /* Texto blanco */
+    background-color: #495057; /* Fondo gris oscuro */
+  }
+
+  body.dark-mode #settings input[type="submit"] {
+    background-color: #ff6f61; /* Naranja suave */
+    color: white;
+  }
+
+  body.dark-mode .flash-success {
+    background-color: #218838; /* Verde oscuro */
+  }
+
+  body.dark-mode .flash-danger {
+    background-color: #c82333; /* Rojo oscuro */
+  }
+
+  /* Estilo general del formulario */
+  #settings {
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 20px auto;
+    font-family: 'Arial', sans-serif;
+  }
+
+  #settings h1 {
+    text-align: center;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+  }
+
+  /* Estilo de los labels */
+  #settings label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  /* Estilo de los inputs y selects */
+  #settings input[type="text"],
+  #settings input[type="email"],
+  #settings textarea,
+  #settings select {
+    width: 98%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-size: 1em;
+  }
+
+  #settings input[type="text"]:focus,
+  #settings input[type="email"]:focus,
+  #settings textarea:focus,
+  #settings select:focus {
+    border-color: #ff6f61; /* Naranja brillante */
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 111, 97, 0.3);
+  }
+
+  /* Estilo del botón de envío */
+  #settings input[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  #settings input[type="submit"]:hover {
+    background-color: #e15f4b; /* Naranja más oscuro al pasar el mouse */
+  }
+
+  /* Estilo de los mensajes flash */
+  .flash-success,
+  .flash-danger {
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 15px;
+    text-align: center;
+  }
+
+  .flash-success {
+    background-color: #28a745; /* Verde claro */
+  }
+
+  .flash-danger {
+    background-color: #dc3545; /* Rojo brillante */
+  }
