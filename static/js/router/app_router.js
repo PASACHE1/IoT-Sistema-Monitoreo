@@ -1,47 +1,31 @@
-// Navegación entre secciones
-const links = document.querySelectorAll(".sidebar-menu a");
-const sections = document.querySelectorAll(".section");
-const breadcrumbText = document.getElementById("breadcrumb-text");
-// Manejo de la barra lateral
-const sidebar = document.getElementsByClassName("sidebar");
-const mainContent = document.querySelector(".main-content");
-// Mostrar la sección activa al cargar
-const savedSection = localStorage.getItem("activeSection") || defaultSection;
-showSection(savedSection);
+  // Función para manejar la navegación entre secciones
+  const links = document.querySelectorAll(".navbar-nav .nav-link");  // Enlaces de la barra lateral
+  const sections = document.querySelectorAll(".section");  // Secciones a mostrar/ocultar
+  const breadcrumbText = document.getElementById("breadcrumb-text");  // Texto de la barra de navegación
 
-const defaultSection = "video";
+  // Función para mostrar una sección y actualizar la barra de navegación
+  function showSection(sectionId) {
+    // Ocultar todas las secciones
+    sections.forEach(section => {
+      section.classList.remove("active");  // Eliminar clase "active" de todas las secciones
+    });
 
-function showSection(sectionId) {
-  // Ocultar todas las secciones y mostrar solo la activa
-  sections.forEach((section) => {
-    section.classList.remove("active");
-  });
-  document.getElementById(sectionId).classList.add("active");
-  breadcrumbText.textContent = document.querySelector(
-    `a[data-section="${sectionId}"]`
-  ).textContent;
-}
+    // Mostrar solo la sección seleccionada
+    const activeSection = document.getElementById(sectionId);
+    activeSection.classList.add("active");
 
-links.forEach((link) => {
-  link.addEventListener("click", (event) => {
-    event.preventDefault();
-    const targetSection = link.dataset.section;
-    localStorage.setItem("activeSection", targetSection); // Guardar sección activa
-    showSection(targetSection);
-  });
-});
-
-function applySidebarState() {
-  const isHidden = localStorage.getItem("sidebar-hidden") === "true";
-
-  if (isHidden) {
-    sidebar[0].classList.add("hidden");
-    mainContent.style.marginLeft = "0";
-  } else {
-    sidebar[0].classList.remove("hidden");
-    mainContent.style.marginLeft = getComputedStyle(sidebar[0]).width;
+    // Actualizar el texto de la barra de navegación (breadcrumb)
+    breadcrumbText.textContent = document.querySelector(`a[data-section="${sectionId}"]`).textContent;
   }
-}
 
-// Aplicar estado guardado al cargar
-applySidebarState();
+  // Agregar evento de clic a cada enlace de la barra lateral
+  links.forEach(link => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();  // Prevenir acción predeterminada del enlace
+      const targetSection = link.dataset.section;  // Obtener la sección objetivo
+      showSection(targetSection);  // Mostrar la sección correspondiente
+    });
+  });
+
+  // Mostrar la sección inicial por defecto (por ejemplo, "video")
+  showSection("video");
