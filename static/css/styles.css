@@ -1,15 +1,16 @@
-@import url('styles_timer.css');
-@import url('chart_styles.css');
-@import url('styles_gmail.css');
+@import url("styles_timer.css");
+@import url("chart_styles.css");
+@import url("components/img-preview-container.css");
+/* @import url("styles_gmail.css"); */
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 :root {
-  --primary-color: #1A1A2E; /* Azul oscuro profesional */
-  --secondary-color: #16213E; /* Azul más profundo */
-  --accent-color: #fcfcfc; /* Azul brillante para resaltar */
-  --danger-color: #E94560; /* Rojo intenso para botones críticos */
-  --success-color: #21BF73; /* Verde llamativo para acciones positivas */
-  --text-color: #F5F5F5; /* Blanco suave para texto */
-  --background-color: #0B132B; /* Fondo oscuro relacionado con sistemas de seguridad */
+  --primary-color: #f5f5f5; /* Azul oscuro profesional */
+  --secondary-color: #d9e4f5; /* Azul más profundo */
+  --accent-color: #0f3460; /* Azul brillante para resaltar */
+  --danger-color: #e94560; /* Rojo intenso para botones críticos */
+  --success-color: #21bf73; /* Verde llamativo para acciones positivas */
+  --text-color: #1a1a2e; /* Blanco suave para texto */
+  --background-color: #f5f5f5; /* Fondo oscuro relacionado con sistemas de seguridad */
   --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Sombras más fuertes */
   --border-radius: 12px;
   --sidebar-width: 250px;
@@ -18,16 +19,15 @@
 
 /* Modo Oscuro */
 .dark-mode {
-  --primary-color: #F5F5F5;
-  --secondary-color: #D9E4F5;
-  --accent-color: #0F3460;
-  --text-color: #1A1A2E;
-  --background-color: #F5F5F5;
+  --primary-color: #1a1a2e;
+  --secondary-color: #16213e;
+  --accent-color: #fcfcfc;
+  --text-color: #f5f5f5;
+  --background-color: #0b132b;
 }
 
 /* Estilos generales */
 body {
-/*   font-family: 'Roboto', sans-serif; */
   margin: 0;
   padding: 0;
   background: var(--background-color);
@@ -47,7 +47,7 @@ body {
   display: flex;
   flex-direction: column;
   box-shadow: var(--box-shadow);
-  transition: transform 0.3s ease; 
+  transition: transform 0.3s ease;
 }
 
 .sidebar-header {
@@ -118,7 +118,7 @@ body {
 .main-content {
   /* margin-left: var(--sidebar-width); */
   width: 100vw;
-/*   height: 100vh; */
+  /*   height: 100vh; */
   margin-top: 70px;
   padding: 20px;
   flex: 1;
@@ -244,7 +244,8 @@ body {
   color: var(--text-color);
 }
 
-.delete-btn, .download-btn {
+.delete-btn,
+.download-btn {
   display: inline-block;
   margin: 5px;
   padding: 8px 12px;
@@ -264,7 +265,7 @@ body {
 
 .delete-btn:hover {
   transform: scale(1.1);
-  background: #C0392B;
+  background: #c0392b;
 }
 
 .download-btn {
@@ -273,7 +274,7 @@ body {
 
 .download-btn:hover {
   transform: scale(1.1);
-  background: #27AE60;
+  background: #27ae60;
 }
 
 /* Footer */
@@ -327,16 +328,44 @@ footer {
 }
 
 .flash-message.success {
-  background-color: #4CAF50; /* Verde */
+  background-color: #4caf50; /* Verde */
 }
 
 .flash-message.danger {
-  background-color: #F44336; /* Rojo */
+  background-color: #f44336; /* Rojo */
+}
+/* NAVARRO */
+/* Limitar la altura de la galería de fotos */
+#gallery {
+  max-height: 80vh; /* 80% de la altura de la ventana */
+  overflow-y: auto; /* Barra de desplazamiento vertical solo si es necesario */
+  padding: 1rem; /* Agrega algo de espacio alrededor */
+}
+#dashboard {
+  max-height: 80vh; /* 80% de la altura de la ventana */
+  overflow-y: auto; /* Barra de desplazamiento vertical solo si es necesario */
+  padding: 1rem; /* Agrega algo de espacio alrededor */
+}
+/* Estilo opcional para los botones e input */
+#photo-search {
+  width: 300px;
 }
 
 @keyframes fade-in-out {
-  0% { opacity: 0; transform: translateY(-10px); }
-  10% { opacity: 1; transform: translateY(0); }
-  90% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(-10px); }
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
 }
