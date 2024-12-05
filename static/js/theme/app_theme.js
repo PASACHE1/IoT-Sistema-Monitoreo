@@ -1,81 +1,55 @@
-// Alternar modo oscuro y guardar en localStorage
-const toggleDarkMode = document.getElementById("toggle-dark-mode");
-const main = document.getElementsByClassName("main");
-const sidebarHeader = document.getElementsByClassName("sidebar-header");
-const siderbarMenuItem = document.getElementsByClassName("sidebar-menu-item");
+const toggleButton = document.getElementById("toggle-theme-btn");
+const body = document.body;
+const cards = document.querySelectorAll(".card");
 
-function applyDarkMode(mode) {
-  if (mode === "dark") {
-    if (main) {
-      removeAddClass(main[0], "main-light", "main-dark");
-    }
-    // Sidebar
-    if (sidebar) {
-      removeAddClass(sidebar[0], "sidebar-light", "sidebar-dark");
-    }
-    if (sidebarHeader) {
-      removeAddClass(
-        sidebarHeader[0],
-        "sidebar-header-light",
-        "sidebar-header-dark"
-      );
-    }
-    if (siderbarMenuItem) {
-      for (let i = 0; i < siderbarMenuItem.length; i++) {
-        removeAddClass(
-          siderbarMenuItem[i],
-          "sidebar-menu-item-light",
-          "sidebar-menu-item-dark"
-        );
-      }
-    }
-    // Texto
-    toggleDarkMode.textContent = "☀️ Modo Claro";
+// Función para alternar entre el tema claro y oscuro
+function toggleTheme() {
+  if (body.classList.contains("bg-light")) {
+    body.classList.remove("bg-light", "text-dark");
+    body.classList.add("bg-dark", "text-light");
+    toggleButton.textContent = "☀️ Modo Claro";
+    cards.forEach((card) => {
+      card.classList.remove("bg-light", "text-dark");
+      card.classList.add("bg-dark", "text-light");
+    });
   } else {
-    if (main) {
-      removeAddClass(main[0], "main-dark", "main-light");
-    }
-    // Sidebar
-    if (sidebar) {
-      removeAddClass(sidebar[0], "sidebar-dark", "sidebar-light");
-    }
-    if (sidebarHeader) {
-      removeAddClass(
-        sidebarHeader[0],
-        "sidebar-header-dark",
-        "sidebar-header-light"
-      );
-    }
-    if (siderbarMenuItem) {
-      for (let i = 0; i < siderbarMenuItem.length; i++) {
-        removeAddClass(
-          siderbarMenuItem[i],
-          "sidebar-menu-item-dark",
-          "sidebar-menu-item-light"
-        );
-      }
-    }
-
-    toggleDarkMode.textContent = "🌙 Modo Oscuro";
+    body.classList.remove("bg-dark", "text-light");
+    body.classList.add("bg-light", "text-dark");
+    cards.forEach((card) => {
+      card.classList.remove("bg-dark", "text-light");
+      card.classList.add("bg-light", "text-dark");
+    });
+    toggleButton.textContent = "🌙 Modo Oscuro";
   }
-}
-// fuuncion para eliminar y agregar uan clase
-function removeAddClass(element, removeClass, addClass) {
-  element.classList.remove(removeClass);
-  element.classList.add(addClass);
-}
 
-// Recuperar el modo guardado en localStorage al cargar la página
-const savedMode = localStorage.getItem("theme") || "light";
-if (savedMode === "dark") {
-  applyDarkMode(savedMode);
+  // Guardar la preferencia en el almacenamiento local
+  localStorage.setItem(
+    "theme",
+    body.classList.contains("bg-dark") ? "dark" : "light"
+  );
 }
 
-// Evento para alternar entre modo claro y oscuro
-toggleDarkMode.addEventListener("click", () => {
-  const currentMode = localStorage.getItem("theme") || "light";
-  const newMode = currentMode === "dark" ? "light" : "dark";
-
-  localStorage.setItem("theme", newMode); // Guardar nuevo estado
-  applyDarkMode(newMode);
+// Detectar el tema guardado en el almacenamiento local al cargar la página
+document.addEventListener("DOMContentLoaded", () => {
+  const savedTheme = localStorage.getItem("theme") || "light";
+  if (savedTheme === "dark") {
+    body.classList.add("bg-dark", "text-light");
+    body.classList.remove("bg-light", "text-dark");
+    cards.forEach((card) => {
+      card.classList.add("bg-dark", "text-light");
+      card.classList.remove("bg-light", "text-dark");
+    });
+    toggleButton.textContent = "☀️ Modo Claro";
+  } else {
+    body.classList.add("bg-light", "text-dark");
+    body.classList.remove("bg-dark", "text-light");
+    cards.forEach((card) => {
+      card.classList.add("bg-light", "text-dark");
+      card.classList.remove("bg-dark", "text-light");
+    });
+    toggleButton.textContent = "🌙 Modo Oscuro";
+  }
 });
+
+// Asignar el evento al botón
+toggleButton.addEventListener("click", toggleTheme);

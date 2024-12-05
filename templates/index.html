@@ -1,317 +1,295 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <!-- Metadatos básicos -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sistema de Seguridad</title>
+  <!-- Agregar icono -->
+  <link rel="icon" href="/static/images/proteccion-de-datos.ico" type="image/x-icon">
+  <!-- Integración de Bootstrap y Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
   <!-- Archivo de estilos CSS externo -->
   <link rel="stylesheet" href="/static/css/styles.css">
 </head>
-<body>
-  <!-- Botón para alternar la visibilidad de la barra lateral -->
-  <button id="toggle-sidebar" class="toggle-sidebar-btn">☰</button>
 
-  <!-- Barra lateral -->
-  <div class="sidebar">
-    <div class="sidebar-header">
-      <center></center>
-    </div>
-    <br>
-    <!-- Menú de la barra lateral con enlaces a las diferentes secciones -->
-    <ul class="sidebar-menu">
-      <li><a href="#" data-section="video">Video en Vivo</a></li>
-      <li><a href="#" data-section="gallery">Galería de Fotos</a></li>
-      <li><a href="#" data-section="dashboard">Dashboard</a></li>
-      <li><a href="#" data-section="settings">Correos Gmail </a></li>
-    </ul>
-  </div>
-
+<body class="bg-light text-dark">
   <!-- Contenido principal -->
-  <div class="main-content">
+  <main class="main-content">
     <!-- Encabezado con el título y un botón para alternar el modo oscuro -->
-    <header class="header">
-      <div class="logo">🔒 Sistema de Seguridad</div>
-      <button id="toggle-dark-mode" class="refresh-btn">🌙 Modo Oscuro</button>
-    </header>
+    <div class="shadow-lg p-3 mb-5 rounded">
+      <h3 class="text-center">🔒 Sistema de Seguridad</h3>
+      <p class="text-center lead">Haz clic en el botón para cambiar entre el tema claro y oscuro.</p>
+      <div class="d-flex justify-content-center">
+        <button id="toggle-theme-btn" class="btn btn-outline-secondary">🌙 Modo Oscuro</button>
+      </div>
+    </div>
 
-    <!-- Barra de navegación o "breadcrumb" -->
-    <nav class="breadcrumb">
-      <span id="breadcrumb-text">Inicio</span>
+    <!-- Barra lateral -->
+    <nav class="navbar navbar-dark bg-dark  fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#"><i class="bi bi-shield-check"></i> Sistemas de seguridad</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+          aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Sistema de seguridad</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+              <li class="nav-item m-3">
+                <a class="nav-link" href="#" data-section="video"><i class="bi bi-camera-reels"></i> Video en Vivo</a>
+              </li>
+              <li class="nav-item m-3">
+                <a class="nav-link" href="#" data-section="gallery"><i class="bi bi-images"></i> Galería de Fotos</a>
+              </li>
+              <li class="nav-item m-3">
+                <a class="nav-link" href="#" data-section="dashboard"><i class="bi bi-speedometer"></i> Dashboard</a>
+              </li>
+              <li class="nav-item m-3">
+                <a class="nav-link" href="#" data-section="settings"><i class="bi bi-envelope"></i> Correos Gmail</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </nav>
-
     <!-- Sección: Video en vivo -->
     <section id="video" class="section">
       <h2>Video en Vivo</h2>
-      <!-- Imagen que muestra el stream de video en vivo desde el servidor -->
       <img src="/video_feed" alt="Cargando video en vivo..." class="video-stream">
     </section>
 
     <!-- Sección: Galería de Fotos -->
     <section id="gallery" class="section">
       <h2>Galería de Fotos</h2>
-
-      <!-- Controles para la galería -->
-      <div class="gallery-controls">
-        <!-- Barra de búsqueda -->
-        <input 
-          type="text" 
-          id="photo-search" 
-          placeholder="Buscar por nombre o fecha..." 
-          class="search-bar"
-        />
-        <!-- Botón para actualizar la galería -->
-        <!-- <button id="refresh-gallery" class="refresh-btn">🔄 Actualizar</button> -->
-        <button id="timer" class="refresh-btn">⏱️ 15 Segundos</button>
+      <div class="container my-4">
+        <div class="row justify-content-between align-items-center">
+          <div class="col-auto">
+            <div class="input-group">
+              <input type="text" id="photo-search" placeholder="Buscar por nombre o fecha..." class="form-control" />
+              <span class="input-group-text"><i class="bi bi-search"></i></span>
+            </div>
+          </div>
+          <div class="col-auto">
+            <button id="timer" class="btn btn-primary btn-sm">⏱️ 15 Segundos</button>
+          </div>
+        </div>
       </div>
 
-      <!-- Grid que contiene las fotos -->
-      <div class="gallery-grid" id="gallery-grid">
-        {% for photo in photos %}
-        <div class="gallery-item" data-name="{{ photo.filename }}" data-date="{{ photo.upload_time }}">
-          <!-- Mostrar la foto -->
-          <img src="{{ url_for('get_photo', filename=photo.filename) }}" alt="Foto">
-          <!-- Mostrar la fecha de la foto -->
-          <span>{{ photo.upload_time }}</span>
-          <!-- Botón para eliminar la foto -->
-          <form method="POST" action="{{ url_for('delete_photo', filename=photo.filename) }}">
-            <button type="submit" class="delete-btn">Eliminar</button>
-          </form>
-          <!-- Enlace para descargar la foto -->
-          <a href="{{ url_for('download_photo', filename=photo.filename) }}" class="download-btn">Descargar</a>
+      <div class="container my-4">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="gallery-grid">
+          {% for photo in photos %}
+          <div class="col gallery-item" data-name="{{ photo.filename }}" data-date="{{ photo.upload_time }}">
+            <div class="card">
+              <img src="{{ url_for('get_photo', filename=photo.filename) }}" class="card-img-top gallery-image"
+                alt="Foto" data-filename="{{ photo.filename }}">
+              <div class="card-body">
+                <h5 class="card-title">{{ photo.filename }}</h5>
+                <p class="card-text">{{ photo.upload_time }}</p>
+              </div>
+              <div class="card-footer text-center">
+                <form method="POST" action="{{ url_for('delete_photo', filename=photo.filename) }}">
+                  <button type="submit" class="btn btn-danger"><i class="bi bi-trash3"></i></button>
+                  <a href="{{ url_for('download_photo', filename=photo.filename) }}" class="btn btn-primary"><i
+                      class="bi bi-file-arrow-down"></i></a>
+                </form>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
         </div>
-        {% endfor %}
+      </div>
+      <!-- Contenedor de la vista previa -->
+      <div id="image-preview-container" style="display: none;">
+        <div class="preview-overlay" onclick="closePreview()"></div>
+        <div class="preview-content">
+          <button onclick="closePreview()" class="btn btn-secondary close-btn"><i class="bi bi-images"></i>
+            Cerrar</button>
+
+          <img id="preview-img" src="" alt="Vista previa de la imagen" class="img-fluid rounded float-start">
+        </div>
       </div>
     </section>
 
     <!-- Sección: Configuraciones -->
-    <section id="settings" class="section">
-      <div class="whatsapp-config-section">
-        <h1>Enviar Correo</h1>
+    <section id="settings" class="section py-5">
+      <div class="whatsapp-config-section container">
+        <h1 class="mb-4">Enviar Correo</h1>
         <form action="{{ url_for('send_email') }}" method="POST">
-            <label for="subject">Asunto:</label>
-            <input type="text" id="subject" name="subject" required>
-            
-            <label for="recipient">Destinatario (Correo):</label>
-            <input type="email" id="recipient" name="recipient" required>
-            
-            <label for="message">Mensaje:</label>
-            <textarea id="message" name="message" rows="4" required></textarea>
-    
-            <!-- Selector de imagen de la galería -->
-            <label for="image">Seleccionar Imagen:</label>
-            <select id="image" name="image_filename">
+          <!-- Asunto -->
+          <div class="mb-3">
+            <label for="subject" class="form-label">Asunto:</label>
+            <input type="text" class="form-control" id="subject" name="subject" required>
+          </div>
+
+          <!-- Destinatario -->
+          <div class="mb-3">
+            <label for="recipient" class="form-label">Destinatario (Correo):</label>
+            <input type="email" class="form-control" id="recipient" name="recipient" required>
+          </div>
+
+          <!-- Mensaje -->
+          <div class="mb-3">
+            <label for="message" class="form-label">Mensaje:</label>
+            <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+          </div>
+
+          <!-- Seleccionar Imagen -->
+          <div class="mb-3">
+            <label for="image" class="form-label">Seleccionar Imagen:</label>
+            <select class="form-select" id="image" name="image_filename">
               <option value="">Selecciona una imagen</option>
               {% for photo in photos %}
-                <option value="{{ photo.filename }}">{{ photo.filename }}</option>
+              <option value="{{ photo.filename }}">{{ photo.filename }}</option>
               {% endfor %}
             </select>
-    
-            <!-- Previsualización de la imagen seleccionada -->
-            <div id="image-preview" style="display:none;">
-              <h3>Vista previa de la imagen:</h3>
-              <img id="preview-img" src="" alt="Imagen seleccionada" style="max-width: 200px; max-height: 200px;">
-            </div>
-    
-            <input type="submit" value="Enviar Correo">
+          </div>
+
+          <!-- Vista previa de la imagen -->
+          <div id="image-preview-email" class="mb-3" style="display:none;">
+            <h3>Vista previa de la imagen:</h3>
+            <img id="preview-img-email" src="" alt="Imagen seleccionada" class="img-fluid"
+              style="max-width: 200px; max-height: 200px;">
+          </div>
+
+          <!-- Botón Enviar -->
+          <div class="d-grid gap-2">
+            <input type="submit" value="Enviar Correo" class="btn btn-primary btn-lg">
+          </div>
         </form>
-    
-        <!-- Mensajes de confirmación o error -->
-        <div>
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    <ul>
-                    {% for category, message in messages %}
-                        <li class="flash-{{ category }}">{{ message }}</li>
-                    {% endfor %}
-                    </ul>
-                {% endif %}
-            {% endwith %}
+
+        <!-- Mensajes Flash -->
+        <div class="mt-3">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+          <ul class="list-unstyled">
+            {% for category, message in messages %}
+            <li class="flash-{{ category }} alert alert-info">{{ message }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+          {% endwith %}
         </div>
       </div>
     </section>
-    
-    <script>
-      // Función para mostrar la imagen seleccionada en el selector
-      document.getElementById("image").addEventListener("change", function() {
-        var imageUrl = this.value;
-        var imagePreview = document.getElementById("image-preview");
-        var previewImg = document.getElementById("preview-img");
-        
-        if (imageUrl) {
-          previewImg.src = "{{ url_for('get_photo', filename='') }}" + imageUrl;
-          imagePreview.style.display = "block";
-        } else {
-          imagePreview.style.display = "none";
-        }
-      });
-    </script>
-      
-<!-- Sección: Dashboard -->
-</section>
+
     <!-- Sección: Dashboard -->
-<section id="dashboard" class="section">
-  <!-- Fila de gráficos -->
-  <div class="graphs-row">
-      <!-- Gráfico de Barras -->
-    <div class="graphs-row">
-        <!-- Contenedor para los gráficos -->
-        <div class="canvas-container">
+    </section>
+    <!-- Sección: Dashboard -->
+    <section id="dashboard" class="section">
+      <div class="graphs-row">
+        <!-- Gráfico de Barras -->
+        <div class="graphs-row">
+          <div class="canvas-container">
             <h2>Gráfico de Barras</h2>
             <canvas id="photoBarChart"></canvas>
             <div class="button-container">
-                <button onclick="downloadChart(barChart, 'bar_chart.jpg')">⬇️ Descargar</button>
+              <button onclick="downloadChart(barChart, 'bar_chart.jpg')">⬇️ Descargar</button>
             </div>
-        </div>
+          </div>
 
-        <div class="canvas-container">
+          <div class="canvas-container">
             <h2>Gráfico de Tortas</h2>
             <canvas id="photoPieChart"></canvas>
             <div class="button-container">
-                <button onclick="downloadChart(pieChart, 'pie_chart.jpg')">⬇️ Descargar</button>
+              <button onclick="downloadChart(pieChart, 'pie_chart.jpg')">⬇️ Descargar</button>
             </div>
-        </div>
+          </div>
 
-        <div class="canvas-container">
+          <div class="canvas-container">
             <h2>Gráfico Lineal</h2>
             <canvas id="photoLineChart"></canvas>
             <div class="button-container">
-                <button onclick="downloadChart(lineChart, 'line_chart.jpg')">⬇️ Descargar</button>
+              <button onclick="downloadChart(lineChart, 'line_chart.jpg')">⬇️ Descargar</button>
             </div>
-        </div>
+          </div>
 
-        <div class="canvas-container">
+          <div class="canvas-container">
             <h2>Gráfico de Área</h2>
             <canvas id="photoAreaChart"></canvas>
             <div class="button-container">
-                <button onclick="downloadChart(areaChart, 'area_chart.jpg')">⬇️ Descargar</button>
+              <button onclick="downloadChart(areaChart, 'area_chart.jpg')">⬇️ Descargar</button>
             </div>
-        </div>
+          </div>
 
-        <div class="canvas-container">
+          <div class="canvas-container">
             <h2>Gráfico Radar</h2>
             <canvas id="photoRadarChart"></canvas>
             <div class="button-container">
-                <button onclick="downloadChart(radarChart, 'radar_chart.jpg')">⬇️ Descargar</button>
+              <button onclick="downloadChart(radarChart, 'radar_chart.jpg')">⬇️ Descargar</button>
             </div>
-        </div>
+          </div>
 
-        <div class="canvas-container">
+          <div class="canvas-container">
             <h2>Gráfico de Dispersión</h2>
             <canvas id="photoScatterChart"></canvas>
             <div class="button-container">
-                <button onclick="downloadChart(scatterChart, 'scatter_chart.jpg')">⬇️ Descargar</button>
+              <button onclick="downloadChart(scatterChart, 'scatter_chart.jpg')">⬇️ Descargar</button>
             </div>
+          </div>
         </div>
-    </div>
 
-    </body>
+</body>
+
 </html>
 
 <!-- Mensaje de error en caso de problemas al cargar los datos -->
 <div class="error-message" style="display:none;">
   No se pudieron cargar los datos para los gráficos. Inténtalo de nuevo más tarde.
 </div>
-    </body>
-    </section>
-    <!-- Pie de página -->
-    <footer>
-      <p><h3>© 2024 Sistema de Seguridad</h3></p>
-    </footer>
-  </div>
+</body>
+</section>
+<!-- Pie de página -->
+<footer class="shadow-lg p-3 mb-5 rounded">
+  <p>
+  <h3>© 2024 Sistema de Seguridad</h3>
+  </p>
+</footer>
+</div>
 
-  <!-- Scripts para interactividad -->
-  <script>
-    // Alternar modo oscuro y guardar en localStorage
-    const toggleDarkMode = document.getElementById("toggle-dark-mode");
+<!-- Scripts para interactividad -->
+<script>
+  // Alternar modo oscuro y guardar en localStorage
+  /* 
+  // Mostrar la sección activa al cargar
+  const savedSection = localStorage.getItem("activeSection") || defaultSection;
+  showSection(savedSection);
 
-    function applyDarkMode(mode) {
-      if (mode === "dark") {
-        document.body.classList.add("dark-mode"); // Activar modo oscuro
-        toggleDarkMode.textContent = "☀️ Modo Claro";
-      } else {
-        document.body.classList.remove("dark-mode"); // Desactivar modo oscuro
-        toggleDarkMode.textContent = "🌙 Modo Oscuro";
-      }
-    }
-
-    // Recuperar el modo guardado en localStorage al cargar la página
-    const savedMode = localStorage.getItem("theme") || "light";
-    applyDarkMode(savedMode);
-
-    // Evento para alternar entre modo claro y oscuro
-    toggleDarkMode.addEventListener("click", () => {
-    const currentMode = document.body.classList.contains("dark-mode") ? "dark" : "light";
-    const newMode = currentMode === "dark" ? "light" : "dark";
-
-    localStorage.setItem("theme", newMode); // Guardar nuevo estado
-    applyDarkMode(newMode);
+  links.forEach(link => {
+    link.addEventListener("click", event => {
+      event.preventDefault();
+      const targetSection = link.dataset.section;
+      localStorage.setItem("activeSection", targetSection); // Guardar sección activa
+      showSection(targetSection);
     });
-
-    // Navegación entre secciones
-    const links = document.querySelectorAll(".sidebar-menu a");
-    const sections = document.querySelectorAll(".section");
-    const breadcrumbText = document.getElementById("breadcrumb-text");
-    const defaultSection = "video";
-
-    function showSection(sectionId) {
-      // Ocultar todas las secciones y mostrar solo la activa
-      sections.forEach(section  => {
-        section.classList.remove("active");
-      });
-      document.getElementById(sectionId).classList.add("active");
-      breadcrumbText.textContent = document.querySelector(`a[data-section="${sectionId}"]`).textContent;
-    }
-
-    // Mostrar la sección activa al cargar
-    const savedSection = localStorage.getItem("activeSection") || defaultSection;
-    showSection(savedSection);
-
-    links.forEach(link => {
-      link.addEventListener("click", event => {
-        event.preventDefault();
-        const targetSection = link.dataset.section;
-        localStorage.setItem("activeSection", targetSection); // Guardar sección activa
-        showSection(targetSection);
-      });
-    });
-
-    // Actualización manual de la galería
-    /* const refreshButton = document.getElementById("refresh-gallery");
-  refreshButton.addEventListener("click", () => {
-    location.reload();  // Recargar la página para reflejar las fotos nuevas
   }); */
 
-    /* // Filtrar fotos en la galería
-    const searchBar = document.getElementById("photo-search");
-    const galleryGrid = document.getElementById("gallery-grid");
-    const galleryItems = galleryGrid.querySelectorAll(".gallery-item");
+  // Actualización manual de la galería
+  /* const refreshButton = document.getElementById("refresh-gallery");
+refreshButton.addEventListener("click", () => {
+  location.reload();  // Recargar la página para reflejar las fotos nuevas
+}); */
 
-    searchBar.addEventListener("input", () => {
-      const query = searchBar.value.toLowerCase();
 
-      galleryItems.forEach(item => {
-        const name = item.getAttribute("data-name").toLowerCase();
-        const date = item.getAttribute("data-date").toLowerCase();
-
-        // Mostrar solo los elementos que coincidan con la búsqueda
-        if (name.includes(query) || date.includes(query)) {
-          item.style.display = "";
-        } else {
-          item.style.display = "none";
-        }
-      });
-    }); */
-
+  /*
     // Manejo de la barra lateral
     const sidebar = document.querySelector(".sidebar");
     const mainContent = document.querySelector(".main-content");
     const toggleSidebarButton = document.getElementById("toggle-sidebar");
-
+  
     function applySidebarState() {
       const isHidden = localStorage.getItem("sidebar-hidden") === "true";
-
+  
       if (isHidden) {
         sidebar.classList.add("hidden");
         mainContent.style.marginLeft = "0";
@@ -320,32 +298,55 @@
         mainContent.style.marginLeft = getComputedStyle(sidebar).getPropertyValue("width");
       }
     }
-
+  
     // Alternar estado de la barra lateral
     toggleSidebarButton.addEventListener("click", () => {
       const isCurrentlyHidden = sidebar.classList.toggle("hidden");
       localStorage.setItem("sidebar-hidden", isCurrentlyHidden);
       mainContent.style.marginLeft = isCurrentlyHidden ? "0" : getComputedStyle(sidebar).getPropertyValue("width");
     });
-
+  
     // Aplicar estado guardado al cargar
-    applySidebarState();
-  </script>
+    applySidebarState(); */
+</script>
+<script>
+  // Función para mostrar la imagen seleccionada en el selector
+  document.getElementById("image").addEventListener("change", function () {
+    var imageUrl = this.value;
+    var imagePreview = document.getElementById("image-preview-email");
+    var previewImg = document.getElementById("preview-img-email");
+
+    if (imageUrl) {
+      previewImg.src = "{{ url_for('get_photo', filename='') }}" + imageUrl;
+      imagePreview.style.display = "block";
+    } else {
+      imagePreview.style.display = "none";
+    }
+  });
+</script>
+<script src="/static/js/img_preview.js"></script>
+<script src="/static/js/router/app_router.js"></script>
+<script src="/static/js/theme/app_theme.js"></script>
+<script src="/static/js/search-timer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+  integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+  integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>
 <!-- Sección para mostrar mensajes Flash -->
 <div id="flash-messages">
   {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      {% for category, message in messages %}
-        <div class="flash-message {{ category }}">{{ message }}</div>
-      {% endfor %}
-    {% endif %}
+  {% if messages %}
+  {% for category, message in messages %}
+  <div class="flash-message {{ category }}">{{ message }}</div>
+  {% endfor %}
+  {% endif %}
   {% endwith %}
 </div>
 <!-- <script src="/static/js/test_timer.js"></script> -->
 <!-- <script src="/static/js/search-timer.js"></script> -->
 <script>
- // Manejo de mensajes Flash: las notificaciones se desvanecen después de 4 segundos
+  // Manejo de mensajes Flash: las notificaciones se desvanecen después de 4 segundos
   document.addEventListener("DOMContentLoaded", () => {
     const flashMessages = document.querySelectorAll(".flash-message");
     if (flashMessages.length > 0) {
@@ -360,8 +361,9 @@
   });
 </script>
 
-        <!-- Importar el archivo JavaScript -->
- 
-        <script src="/static/js/chart _data.js"></script>
-  
+<!-- Importar el archivo JavaScript -->
+
+<script src="/static/js/chart _data.js"></script>
+
+
 </html>
