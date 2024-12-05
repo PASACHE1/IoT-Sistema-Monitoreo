@@ -19,31 +19,30 @@
   <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 
-<body>
+<body class="bg-light text-dark">
   <!-- Contenido principal -->
   <main class="main-content">
     <!-- Encabezado con el título y un botón para alternar el modo oscuro -->
-    <header class="header">
-      <div class="logo">🔒 Sistema de Seguridad</div>
-      <button id="toggle-dark-mode" class="refresh-btn">🌙 Modo Oscuro</button>
-    </header>
+    <div class="shadow-lg p-3 mb-5 rounded">
+      <h3 class="text-center">🔒 Sistema de Seguridad</h3>
+      <p class="text-center lead">Haz clic en el botón para cambiar entre el tema claro y oscuro.</p>
+      <div class="d-flex justify-content-center">
+        <button id="toggle-theme-btn" class="btn btn-outline-secondary">🌙 Modo Oscuro</button>
+      </div>
+    </div>
 
-    <!-- Barra de navegación o "breadcrumb" -->
-    <!-- <nav class="breadcrumb">
-      <span id="breadcrumb-text">Inicio</span>
-    </nav> -->
     <!-- Barra lateral -->
-    <nav class="navbar bg-body-tertiary fixed-top">
+    <nav class="navbar navbar-dark bg-dark  fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand" href="#"><i class="bi bi-shield-check"></i> Sistemas de seguridad</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
           aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
           <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Sistema de seguridad</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>
           <div class="offcanvas-body">
             <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
@@ -57,7 +56,7 @@
                 <a class="nav-link" href="#" data-section="dashboard"><i class="bi bi-speedometer"></i> Dashboard</a>
               </li>
               <li class="nav-item m-3">
-                <a class="nav-link" href="#" data-section="settings"><i class="bi bi-speedometer"></i> Correos Gmail</a>
+                <a class="nav-link" href="#" data-section="settings"><i class="bi bi-envelope"></i> Correos Gmail</a>
               </li>
             </ul>
           </div>
@@ -90,7 +89,7 @@
       <div class="container my-4">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="gallery-grid">
           {% for photo in photos %}
-          <div class="col">
+          <div class="col gallery-item" data-name="{{ photo.filename }}" data-date="{{ photo.upload_time }}">
             <div class="card">
               <img src="{{ url_for('get_photo', filename=photo.filename) }}" class="card-img-top gallery-image"
                 alt="Foto" data-filename="{{ photo.filename }}">
@@ -157,9 +156,9 @@
           </div>
 
           <!-- Vista previa de la imagen -->
-          <div id="image-preview" class="mb-3" style="display:none;">
+          <div id="image-preview-email" class="mb-3" style="display:none;">
             <h3>Vista previa de la imagen:</h3>
-            <img id="preview-img" src="" alt="Imagen seleccionada" class="img-fluid"
+            <img id="preview-img-email" src="" alt="Imagen seleccionada" class="img-fluid"
               style="max-width: 200px; max-height: 200px;">
           </div>
 
@@ -251,7 +250,7 @@
 </body>
 </section>
 <!-- Pie de página -->
-<footer>
+<footer class="shadow-lg p-3 mb-5 rounded">
   <p>
   <h3>© 2024 Sistema de Seguridad</h3>
   </p>
@@ -261,32 +260,7 @@
 <!-- Scripts para interactividad -->
 <script>
   // Alternar modo oscuro y guardar en localStorage
-  /* const toggleDarkMode = document.getElementById("toggle-dark-mode");
-
-  function applyDarkMode(mode) {
-    if (mode === "dark") {
-      document.body.classList.add("dark-mode"); // Activar modo oscuro
-      toggleDarkMode.textContent = "☀️ Modo Claro";
-    } else {
-      document.body.classList.remove("dark-mode"); // Desactivar modo oscuro
-      toggleDarkMode.textContent = "🌙 Modo Oscuro";
-    }
-  }
-
-  // Recuperar el modo guardado en localStorage al cargar la página
-  const savedMode = localStorage.getItem("theme") || "light";
-  applyDarkMode(savedMode);
-
-  // Evento para alternar entre modo claro y oscuro
-  toggleDarkMode.addEventListener("click", () => {
-    const currentMode = document.body.classList.contains("dark-mode") ? "dark" : "light";
-    const newMode = currentMode === "dark" ? "light" : "dark";
-
-    localStorage.setItem("theme", newMode); // Guardar nuevo estado
-    applyDarkMode(newMode);
-  });
-
-
+  /* 
   // Mostrar la sección activa al cargar
   const savedSection = localStorage.getItem("activeSection") || defaultSection;
   showSection(savedSection);
@@ -339,8 +313,8 @@ refreshButton.addEventListener("click", () => {
   // Función para mostrar la imagen seleccionada en el selector
   document.getElementById("image").addEventListener("change", function () {
     var imageUrl = this.value;
-    var imagePreview = document.getElementById("image-preview");
-    var previewImg = document.getElementById("preview-img");
+    var imagePreview = document.getElementById("image-preview-email");
+    var previewImg = document.getElementById("preview-img-email");
 
     if (imageUrl) {
       previewImg.src = "{{ url_for('get_photo', filename='') }}" + imageUrl;
@@ -352,7 +326,8 @@ refreshButton.addEventListener("click", () => {
 </script>
 <script src="/static/js/img_preview.js"></script>
 <script src="/static/js/router/app_router.js"></script>
-<!-- <script src="/static/js/search-timer.js"></script> -->
+<script src="/static/js/theme/app_theme.js"></script>
+<script src="/static/js/search-timer.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
   integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
