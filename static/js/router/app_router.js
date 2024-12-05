@@ -15,7 +15,7 @@
     activeSection.classList.add("active");
 
     // Actualizar el texto de la barra de navegación (breadcrumb)
-    breadcrumbText.textContent = document.querySelector(`a[data-section="${sectionId}"]`).textContent;
+/*     breadcrumbText.textContent = document.querySelector(`a[data-section="${sectionId}"]`).textContent; */
   }
 
   // Agregar evento de clic a cada enlace de la barra lateral

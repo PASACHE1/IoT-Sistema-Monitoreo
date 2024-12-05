@@ -4,7 +4,10 @@ from flask_mail import Mail, Message
 import os  # Para manipular archivos y rutas
 from datetime import datetime  # Para manejar fechas y horas
 import requests  # Para realizar solicitudes HTTP
+from dotenv import load_dotenv  # Para cargar variables de entorno desde un archivo .env
 
+# Cargar variables de entorno desde el archivo .env
+load_dotenv()
 # Creamos una instancia de la aplicación Flask
 app = Flask(__name__)
 
@@ -15,9 +18,9 @@ app.secret_key = 'secure_key'
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'pasache.1518@gmail.com'  # Tu correo
-app.config['MAIL_PASSWORD'] = 'tlcw kxtg agly phak'  # Tu contraseña
-app.config['MAIL_DEFAULT_SENDER'] = 'pasachen.2022@gmail.com'  # Remitente por defecto
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')  # Tu dirección de correo electrónico
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')  # Tu contraseña de correo electrónico
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')  # Remitente predeterminado
 
 mail = Mail(app)
 

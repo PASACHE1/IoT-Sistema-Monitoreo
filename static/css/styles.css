@@ -47,7 +47,7 @@ body {
   display: flex;
   flex-direction: column;
   box-shadow: var(--box-shadow);
-  transition: transform 0.3s ease; /* Transición suave */
+  transition: transform 0.3s ease; 
 }
 
 .sidebar-header {
@@ -116,7 +116,10 @@ body {
 
 /* Main Content */
 .main-content {
-  margin-left: var(--sidebar-width);
+  /* margin-left: var(--sidebar-width); */
+  width: 100vw;
+/*   height: 100vh; */
+  margin-top: 70px;
   padding: 20px;
   flex: 1;
 }
